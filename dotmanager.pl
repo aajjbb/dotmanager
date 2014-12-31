@@ -11,18 +11,18 @@ my $root = $ENV{'HOME'};
 my $current_dir = $ENV{'PWD'};
 
 my %files = (
-	".emacs.d" => $root,
-	".weechat" => $root,
-	"awesome" => $root . ".config/",
-	".Xresources" => $root,
-	".Xdefaults" => $root,
+	"awesome" => $root . "/.config",
+	"irc.conf" => $root . "/.weechat",
+	"weechat.conf" => $root . "/.weechat",
 	".bash_profile" => $root,
 	".bashrc" => $root,
 	".emacs" => $root,
+	".emacs.d" => $root,
 	".gitconfig" => $root,
 	".tmux.conf" => $root,
 	".vimrc" => $root,
-	".Xresources" => $root,
+	".Xdefaults" => $root,
+	".Xresources" => $root,	
 );
 
 =doc
@@ -32,7 +32,7 @@ my %files = (
 sub install {
 	foreach my $key (keys %files) {
 		my $source_file = $current_dir . "/" . $key;
-		my $destiny_file = $root . "/" . $key;
+		my $destiny_file = $files{$key} . "/" . $key;
 
 		print("Installing " . $key . " in " . $destiny_file . "\n");
 		
@@ -54,7 +54,7 @@ sub install {
 
 sub update {
 	foreach my $key (keys %files) {
-		my $source_file = $root . "/" . $key;;
+		my $source_file = $files{$key} . "/" . $key;
 		my $destiny_file = $current_dir . "/" . $key;
 
 		print("Uploading " . $source_file . " in " . $destiny_file . "\n");
