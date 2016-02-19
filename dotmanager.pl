@@ -40,21 +40,30 @@ my %files = (
     Install dotfiles of the current repository for the current user in the system
 =cut
 
+sub copy {
+    my ($source_file, $destiny_file) = @_;
+    
+    if (-d $source_file) {
+        if (!dircopy($source_file, $destiny_file)) {
+            return 0;
+        }
+    } else {
+        if (!fcopy($source_file, $destiny_file)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 sub install {
     foreach my $key (keys %files) {
         my $source_file = $current_dir . "/" . $key;
         my $destiny_file = $files{$key} . "/" . $key;
 
         print("Installing " . $key . " in " . $destiny_file . "\n");
-        
-        if (-d $source_file) {
-            if (!dircopy($source_file, $destiny_file)) {
-                say "Failed to install " . $key . " is probably being used by other application";
-            }
-        } else {
-            if (!fcopy($source_file, $destiny_file)) {
-                say "Failed to install " . $key . " is probably being used by other application";
-            }
+
+        if (!copy($source_file, $destiny_file)) {
+            say "Failed to install " . $key . " is probably being used by other application or it does not exists";
         }
     }
 }
@@ -69,15 +78,9 @@ sub update {
         my $destiny_file = $current_dir . "/" . $key;
 
         print("Uploading " . $source_file . " in " . $destiny_file . "\n");
-        
-        if (-d $source_file) {
-            if (!dircopy($source_file, $destiny_file)) {
-                say "Failed to update " . $key . " is probably being used by other application";
-            }
-        } else {
-            if (!fcopy($source_file, $destiny_file)) {
-                say "Failed to update " . $key . " is probably being used by other application";
-            }
+
+        if (!copy($source_file, $destiny_file)) {
+            say "Failed to update " . $key . " is probably being used by other application  or it does not exists";
         }
     }
 }
@@ -86,10 +89,10 @@ if ($#ARGV != 0) {
     print("Usage: perl dotmanager.pl [OPTIONS]\n --install [Install current files in repository to system]\n --update [Update files in repository with ones from the system]\n");
 } else {
     if ($ARGV[0] eq "--install") {
-	install;
+        install;
     } elsif ($ARGV[0] eq "--update") {
-	update;
+        update;
     } else {
-	print("Invalid argument");
+        print("Invalid argument");
     }
 }
