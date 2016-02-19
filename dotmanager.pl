@@ -83,11 +83,11 @@ sub update {
 }
 
 if ($#ARGV != 0) {
-	print("perl dotmanager.pl -install \nperl dotmanager.pl -update\n");
+	print("perl dotmanager.pl --install \nperl dotmanager.pl --update\n");
 } else {
-	if ($ARGV[0] eq "-install") {
+	if ($ARGV[0] eq "--install") {
 		install;
-	} elsif ($ARGV[0] eq "-update") {
+	} elsif ($ARGV[0] eq "--update") {
 		update;
 	} else {
 		print("Invalid argument");
