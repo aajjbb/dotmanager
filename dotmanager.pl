@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use File::Copy::Recursive qw(dircopy fcopy);
-
 use feature 'say';
 
 my $root = $ENV{'HOME'}; 
@@ -22,8 +20,8 @@ my %files = (
     "xrandr.lua"  => $root . "/.config/awesome",
 
     #weechat
-    ".weechat/irc.conf" => $root . "/weechat",
-    ".weechat/plugins.conf" => $root . "/weechat",
+    ".weechat/irc.conf" => $root,
+    ".weechat/plugins.conf" => $root,
 
     #general
     ".bash_profile" => $root,
@@ -40,21 +38,6 @@ my %files = (
     Install dotfiles of the current repository for the current user in the system
 =cut
 
-sub copy {
-    my ($source_file, $destiny_file) = @_;
-    
-    if (-d $source_file) {
-        if (!dircopy($source_file, $destiny_file)) {
-            return 0;
-        }
-    } else {
-        if (!fcopy($source_file, $destiny_file)) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
 sub install {
     foreach my $key (keys %files) {
         my $source_file = $current_dir . "/" . $key;
@@ -62,7 +45,9 @@ sub install {
 
         print("Installing " . $key . " in " . $destiny_file . "\n");
 
-        if (!copy($source_file, $destiny_file)) {
+        my $result = `cp -TR $source_file $destiny_file`;
+        
+        if ($result) {
             say "Failed to install " . $key . " is probably being used by other application or it does not exists";
         }
     }
@@ -79,7 +64,9 @@ sub update {
 
         print("Uploading " . $source_file . " in " . $destiny_file . "\n");
 
-        if (!copy($source_file, $destiny_file)) {
+        my $result = `cp -TR $source_file $destiny_file`;
+
+        if ($result) {
             say "Failed to update " . $key . " is probably being used by other application  or it does not exists";
         }
     }
