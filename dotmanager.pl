@@ -5,33 +5,15 @@ use warnings;
 
 use feature 'say';
 
-my $root = $ENV{'HOME'}; 
+my $base_dir = $ENV{'HOME'}; 
 my $current_dir = $ENV{'PWD'};
 
-my %files = (
-    #awesome
-    "freedesktop" => $root . "/.config/awesome",
-    "scratchdrop" => $root . "/.config/awesome",
-    "starbreaker" => $root . "/.config/awesome/themes",
-    
-    "menugen.lua" => $root . "/.config/awesome",
-    "rc.lua"      => $root . "/.config/awesome",
-    "widgets.lua" => $root . "/.config/awesome",
-    "xrandr.lua"  => $root . "/.config/awesome",
+=pod
+%file maps files/folder to their right place in the file system
+=cut
 
-    #weechat
-    ".weechat/irc.conf" => $root,
-    ".weechat/plugins.conf" => $root,
-
-    #general
-    ".bash_profile" => $root,
-    ".bashrc" => $root,
-    ".emacs" => $root,
-    ".gitconfig" => $root,
-    ".tmux.conf" => $root,
-    ".vimrc" => $root,
-    ".xbindkeysrc" => $root,	
-    ".Xresources" => $root,	
+my %files = (    
+    ".emacs" => $base_dir,
 );
 
 =doc
