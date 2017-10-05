@@ -48,7 +48,7 @@ sub install {
 
             if (not ($answer eq 'y' || $answer eq 'Y')) {
                 print("Skipping $key update\n");
-                continue;
+                next;
             }
         }
         
@@ -79,7 +79,7 @@ sub update {
 
             if (not ($answer eq 'y' || $answer eq 'Y')) {
                 print("Skipping $key update\n");
-                continue;
+                next;
             }
         }
         print("Uploading " . $source_file . " in " . $destiny_file . "\n");
